@@ -37,7 +37,7 @@ npx sequelize-cli db:seed:all
 
 To test the application just run the command: `npm run test`.
 
-## Run the docker
+## Run with docker
 
 Follow these steps, replacing `[path/to/database/folder]` with the complete absolute path to the `/storage` app folder.
 
