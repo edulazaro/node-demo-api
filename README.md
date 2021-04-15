@@ -46,9 +46,9 @@ Follow these steps, replacing `[path/to/database/folder]` with the complete abso
   docker build -t node-app
   ```
 2. Run the image using:
-   ```
-   docker run -p 3000:8080 -v [path/to/database/folder]:/usr/src/app/storage node-app
-   ```
+  ```
+  docker run -p 3000:8080 -v [path/to/database/folder]:/usr/src/app/storage node-app
+  ```
 
 
 
