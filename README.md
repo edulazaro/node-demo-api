@@ -12,7 +12,7 @@ To install the application follow these steps:
   ```
   npm install
   ```
-2. Run the migrations and impor the seeds
+2. Run the migrations and import the seeds
   ```
   npm migrate
   ```
@@ -21,9 +21,9 @@ To install the application follow these steps:
   npm start
   ```
 
-You can then import the collection ***NodeApp.postman_collection.json** into [Postman](https://www.postman.com/) and call the endpoints, using by default port `3000`.
+You can then import the collection **NodeApp.postman_collection.json** into [Postman](https://www.postman.com/) and call the endpoints, using by default port `3000`.
 
-To manually execute the micration or the seeder:
+To manually execute the migration or the seeder:
 
 ```
 # Migrate
@@ -41,8 +41,14 @@ To test the application just run the command: `npm run test`.
 
 Follow these steps, replacing `[path/to/database/folder]` with the complete absolute path to the `/storage` app folder.
 
-1. Build the image using `docker build -t node-app`.
-2. Run the image using `docker run -p 3000:8080 -v [path/to/database/folder]:/usr/src/app/storage node-app`.
+1. Build the image using:
+  ```
+  docker build -t node-app
+  ```
+2. Run the image using:
+   ```
+   docker run -p 3000:8080 -v [path/to/database/folder]:/usr/src/app/storage node-app
+   ```
 
 
 
