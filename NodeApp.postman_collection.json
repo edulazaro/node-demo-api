@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9fa24235-5189-4b37-9b26-dca22bb6ad42",
+		"_postman_id": "47c870da-88d8-4aef-ab0b-1ed75b9d8264",
 		"name": "NodeApp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,9 +8,30 @@
 		{
 			"name": "PATCH",
 			"request": {
-				"method": "GET",
+				"method": "PATCH",
 				"header": [],
-				"url": null
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"givenName\": \"JohnV2\",\r\n    \"familyName\": \"DoeV2\",\r\n    \"email\": \"johndoe@bla.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/users/d9605c85-3bdb-4ba7-bf69-ab00c4aae5a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"d9605c85-3bdb-4ba7-bf69-ab00c4aae5a"
+					]
+				}
 			},
 			"response": []
 		},
@@ -21,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"givenName\": \"John\",\r\n    \"familyName\": \"Doe\",\r\n    \"email\": \"test4@test.dev\"\r\n}",
+					"raw": "{\r\n    \"givenName\": \"John\",\r\n    \"familyName\": \"Doe\",\r\n    \"email\": \"test4@tessst.dev\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,7 +69,19 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "http://localhost:3000/api/users/d9605c85-3bdb-4ba7-bf69-ab00c4aae5a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"d9605c85-3bdb-4ba7-bf69-ab00c4aae5a"
+					]
+				}
 			},
 			"response": []
 		},
@@ -57,7 +90,39 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "http://localhost:3000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/users/b8929789-50c0-4992-a337-e1eea706e862",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"b8929789-50c0-4992-a337-e1eea706e862"
+					]
+				}
 			},
 			"response": []
 		}

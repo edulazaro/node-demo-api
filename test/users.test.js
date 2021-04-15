@@ -37,7 +37,7 @@ beforeEach(async () => {
     ], {});
 });
 
-describe('/GET users', () => {
+describe('GET /users', () => {
   it('It should return all users', (done) => {
     chai.request(app)
       .get('/api/users')
@@ -50,7 +50,7 @@ describe('/GET users', () => {
   });
 });
 
-describe('/GET users/:user', () => {
+describe('GET /users/:userId', () => {
   it('It should fail returning an unexistent user', (done) => {
     chai.request(app)
       .get('/api/users/3')
@@ -79,7 +79,7 @@ describe('/GET users/:user', () => {
   });
 });
 
-describe('/POST users', () => {
+describe('POST /users', () => {
 
   it('It should not create a user with an invalid email', (done) => {
     const data = {
@@ -152,8 +152,7 @@ describe('/POST users', () => {
 });
 
 
-describe('/UPDATE users', () => {
-
+describe('PATCH /users/:userId', () => {
 
   it('It should not patch a unexistent user', (done) => {
     const data = {
@@ -227,6 +226,29 @@ describe('/UPDATE users', () => {
         expect(res.body.data.email).to.equal('anothervalid@email.com');
         expect(res.body.data.givenName).to.equal('NewFakeName');
         expect(res.body.data.familyName).to.equal('NewFakeSurname');
+        done();
+      });
+  });
+});
+
+
+
+describe('DELETE /users/:userId', () => {
+  it('It should fail deleting an unexistent user', (done) => {
+    chai.request(app)
+      .delete('/api/users/3')
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(404);
+        done();
+      });
+  });
+  it('It should delete the user', (done) => {
+    chai.request(app)
+      .delete('/api/users/1')
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.success).to.equal(true);
         done();
       });
   });

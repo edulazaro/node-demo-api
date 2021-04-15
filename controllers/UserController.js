@@ -150,7 +150,7 @@ class UserController {
 
     try {
       await user.destroy();
-        return res.status(204).json({
+        return res.status(200).json({
           success: true,
         });       
     } catch (e) {
