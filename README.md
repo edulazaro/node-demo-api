@@ -33,9 +33,11 @@ npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
 ```
 
-## Testing
+## Testing and coverage
 
-To test the application just run the command: `npm run test`.
+To test the application just run the command `npm test`.
+
+To get test coverage information run the command`npm run cover` and then access the `coverage\index.html` file to check the results.
 
 ## Run with docker
 
