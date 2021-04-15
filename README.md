@@ -12,7 +12,6 @@ To install the application follow these steps:
   ```
   npm install
   ```
-  ```
 2. Run the migrations and impor the seeds
   ```
   npm migrate
