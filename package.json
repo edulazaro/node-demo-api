@@ -10,6 +10,7 @@
     "cover": "cross-env NODE_ENV=test nyc --reporter=html npm test"
   },
   "dependencies": {
+    "async-redis": "^1.1.7",
     "body-parser": "~1.13.2",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
@@ -19,6 +20,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "mocha": "^8.3.2",
+    "redis": "^3.1.2",
+    "redis-server": "^1.2.2",
     "sequelize": "^6.6.2",
     "sqlite3": "^5.0.2",
     "uuidv4": "^6.2.7"

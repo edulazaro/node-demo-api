@@ -1,10 +1,22 @@
 const User = require('../models/User.js');
+const UserTransformer = require('../transformers/UserTransformer.js');
 const { validationResult } = require('express-validator');
+
+const asyncRedis = require("async-redis");
+const redisClient = asyncRedis.createClient();
+
+redisClient.on("error", function (error) {
+  console.error(error);
+});
 
 /**
  * User controller
  */
 class UserController {
+
+  constructor() {
+    this.userTransformer = new UserTransformer();
+  }
 
   /**
    * @param {Object} req The request object
@@ -39,6 +51,7 @@ class UserController {
       }
 
       const user = await User.create({ email, givenName, familyName });
+      await redisClient.flushall();
 
       return res.status(201).json({
         success: true,
@@ -65,16 +78,33 @@ class UserController {
     try {
 
       const where = {};
+      let userData = null;
+      let cacheKey = 'users';
 
       if (req.query.email !== undefined) where['email'] = req.query.email;
       if (req.query.givenName !== undefined) where['givenName'] = req.query.givenName;
       if (req.query.familyName !== undefined) where['familyName'] = req.query.familyName;
 
-      const users = await User.findAll({ where });
+
+      for (const key in where) {
+        if (!where.hasOwnProperty(key)) continue;
+        cacheKey = cacheKey + '_' + key + '-' + where[key];
+      }
+
+
+      const userCacheData = await redisClient.get(cacheKey);
+
+      if (userCacheData !== null) {
+        userData = JSON.parse(userCacheData);
+      } else {
+        const users = await User.findAll({ where });
+        userData = this.userTransformer.transformMany(users);
+        await redisClient.set(cacheKey, JSON.stringify(userData));
+      }
 
       return res.status(200).json({
         success: true,
-        data: users
+        data: userData
       });
 
     } catch (e) {
@@ -93,11 +123,22 @@ class UserController {
    * @return {Object} res The response object
    */
   getUser = async (req, res, next) => {
+
     try {
       const userId = req.params.userId;
-      const user = await User.findByPk(userId);
+      let userData = null;
 
-      if (user === null) {
+      const userCacheData = await redisClient.get('user_' + userId);
+
+      if (userCacheData !== null) {
+        userData = JSON.parse(userCacheData);
+      } else {
+        const user = await User.findByPk(userId);
+        userData = this.userTransformer.transform(user);
+        await redisClient.set('user_' + userId, JSON.stringify(userData));
+      }
+
+      if (userData === null || !userData) {
 
         return res.status(404).json({
           success: false,
@@ -112,7 +153,7 @@ class UserController {
 
       return res.status(200).json({
         success: true,
-        data: user
+        data: userData
       });
 
     } catch (e) {
@@ -130,7 +171,7 @@ class UserController {
    * @param {function} next The callback to the next program handler
    * @return {Object} res The response object
    */
-   deleteUser = async (req, res, next) => {
+  deleteUser = async (req, res, next) => {
 
     const userId = req.params.userId;
     const user = await User.findByPk(userId);
@@ -150,9 +191,10 @@ class UserController {
 
     try {
       await user.destroy();
-        return res.status(200).json({
-          success: true,
-        });       
+      await redisClient.flushall();
+      return res.status(200).json({
+        success: true,
+      });
     } catch (e) {
       console.log(e);
       res.status(500).json({
@@ -173,7 +215,7 @@ class UserController {
 
       const userId = req.params.userId;
       const user = await User.findByPk(userId);
-  
+
       if (user === null) {
         return res.status(404).json({
           success: false,
@@ -200,6 +242,7 @@ class UserController {
       if (req.body.familyName !== undefined) user.familyName = req.body.familyName;
 
       await user.save();
+      await redisClient.flushall();
 
       return res.status(200).json({
         success: true,
